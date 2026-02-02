@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お目当て帳プロジェクト：リリース管理報告書</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom styles for chart container compliance */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #44403c; /* stone-700 */
+        }
+        .active-tab {
+            background-color: #d97706; /* amber-600 */
+            color: white;
+            border-color: #d97706;
+        }
+        .inactive-tab {
+            background-color: white;
+            color: #78716c; /* stone-500 */
+            border-color: #e7e5e4; /* stone-200 */
+        }
+        .inactive-tab:hover {
+            background-color: #fffbeb; /* amber-50 */
+            color: #d97706;
+        }
+        .step-active {
+            border-color: #d97706;
+            background-color: #fffbeb;
+        }
+        .step-inactive {
+            border-color: #e7e5e4;
+            background-color: white;
+            opacity: 0.6;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone & Amber) -->
+    <!-- Application Structure Plan: 
+         1. Hero: Title and Executive Summary of the report.
+         2. Evolution Timeline: Interactive tabs representing the chronological phases (V1.0.0 -> Cleanup -> V1.0.1). Shows details of operations.
+         3. Project Maturity: Comparison chart (Radar) showing the qualitative improvement in project management.
+         4. Future Workflow: Interactive vertical stepper to teach the new standard operating procedure.
+    -->
+    <!-- Visualization & Content Choices:
+         - Timeline: Uses Tab navigation to switch content content without scrolling, keeping context.
+         - Maturity: Radar chart effectively compares multi-axis improvements (Stability, Tech Stack, etc.) pre/post intervention.
+         - Workflow: Vertical list with highlight interaction to focus user attention on one step at a time.
+         - NO SVG/Mermaid: All icons are Unicode, charts are Chart.js Canvas.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-stone-100 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-stone-800 text-stone-100 shadow-md">
+        <div class="container mx-auto px-4 py-6 max-w-6xl flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-wide">📦 お目当て帳プロジェクト</h1>
+                <p class="text-stone-400 text-sm mt-1">リリース管理および構成管理報告書</p>
+            </div>
+            <div class="text-right hidden md:block">
+                <span class="bg-amber-600 text-white text-xs px-2 py-1 rounded-full uppercase tracking-wider">Latest: V1.0.1</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl space-y-12">
+
+        <!-- Intro -->
+        <section class="bg-white rounded-xl shadow-sm p-8 border-l-4 border-amber-500">
+            <h2 class="text-xl font-bold text-stone-800 mb-4">📢 プロジェクト概要</h2>
+            <p class="text-stone-600 leading-relaxed">
+                本レポートは、「お目当て帳プロジェクト」におけるリリース管理体制の構築と、V1.0.0からV1.0.1への移行に伴う構成管理の適正化プロセスをまとめたものです。
+                初期のアドホックな開発体制から、Gitを用いたブランチ戦略、タグ管理、そして継続的なデプロイフロー（CD）を確立するまでの変遷を報告します。
+            </p>
+        </section>
+
+        <!-- Section 1: Phase Evolution (Interactive Tabs) -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-stone-800 flex items-center gap-2">
+                    <span>📅</span> プロジェクト変遷と実施事項
+                </h2>
+                <p class="text-stone-500 mt-2 text-sm">
+                    タブをクリックして、各フェーズにおける実施内容と技術的な詳細を確認してください。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Navigation Tabs -->
+                <div class="lg:col-span-1 flex flex-col gap-3" id="phase-tabs">
+                    <!-- Tabs will be injected here by JS -->
+                </div>
+
+                <!-- Content Display -->
+                <div class="lg:col-span-3 bg-white rounded-xl shadow-sm p-6 min-h-[400px] relative transition-all duration-300" id="phase-content">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Maturity Analysis (Chart) -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-stone-800 flex items-center gap-2">
+                    <span>📊</span> 構成管理成熟度分析
+                </h2>
+                <p class="text-stone-500 mt-2 text-sm">
+                    初期段階（V1.0.0）と現在（V1.0.1）のプロジェクト管理状態を定性的に比較した分析結果です。
+                    フレームワークの近代化、履歴管理の透明性、デプロイの安定性が向上しています。
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="chart-container">
+                    <canvas id="maturityChart"></canvas>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                        <h3 class="font-bold text-stone-700 mb-2">🚀 主要な改善ポイント</h3>
+                        <ul class="list-disc list-inside text-sm text-stone-600 space-y-2">
+                            <li><strong class="text-amber-600">Framework:</strong> .NET 9.0 から .NET 10.0 へ移行し、最新のパフォーマンスとセキュリティを確保。</li>
+                            <li><strong class="text-amber-600">Git Tagging:</strong> リリースポイントにタグ（Tag）を付与することで、過去バージョンの確実な追跡が可能に。</li>
+                            <li><strong class="text-amber-600">Branching:</strong> 機能開発を Feature ブランチに分離し、Main ブランチの安定性を保護。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Future Workflow (Interactive Stepper) -->
+        <section>
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-stone-800 flex items-center gap-2">
+                    <span>🛡️</span> 今後の標準開発ワークフロー (Best Practices)
+                </h2>
+                <p class="text-stone-500 mt-2 text-sm">
+                    次期プロジェクト（PJ002〜）から厳守すべき、プロフェッショナルな開発サイクルです。
+                    各ステップをクリックして詳細を確認してください。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Steps List -->
+                <div class="md:col-span-5 space-y-3" id="workflow-list">
+                    <!-- Steps injected by JS -->
+                </div>
+
+                <!-- Step Detail View -->
+                <div class="md:col-span-7 bg-stone-800 text-stone-100 rounded-xl shadow-lg p-8 flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-9xl font-bold select-none text-white pointer-events-none" id="step-number-bg">1</div>
+                    
+                    <div id="workflow-detail" class="relative z-10">
+                        <span class="text-amber-500 font-mono text-sm tracking-widest uppercase mb-2 block">Current Step</span>
+                        <h3 class="text-2xl font-bold mb-4" id="wf-title">Loading...</h3>
+                        <p class="text-stone-300 leading-relaxed mb-6" id="wf-desc">Select a step to view details.</p>
+                        
+                        <div class="bg-black/30 rounded p-4 font-mono text-xs text-green-400 border-l-2 border-green-500" id="wf-cmd-container">
+                            <span class="select-none text-stone-500">$</span> <span id="wf-cmd">git status</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-200 text-stone-600 py-8 mt-12">
+        <div class="container mx-auto px-4 max-w-6xl text-center">
+            <p class="text-sm">OmeateCho Project Report - Generated for Internal Review</p>
+            <p class="text-xs mt-2 opacity-70">Based on release_management_report.md</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data Definitions ---
+
+        // 1. Phases Data (For Timeline)
+        const phasesData = [
+            {
+                id: 'p1',
+                title: '1. 初期化とベースライン (V1.0.0)',
+                date: 'Initial Release',
+                icon: '🌱',
+                summary: 'プロジェクトの立ち上げと初回リリース。環境構築とWebサービス化を実施。',
+                details: [
+                    { label: 'Solution Init', text: '.NET SDKによるソリューション・プロジェクト新規作成' },
+                    { label: 'Remote Repo', text: '共有サーバー上にBare Repositoryを構築しOrigin登録' },
+                    { label: 'Environment', text: 'クライアント開発完了後、UbuntuサーバーへClone' },
+                    { label: 'Deployment', text: 'dotnet publish -c Release, Systemd設定' }
+                ],
+                status: 'Completed',
+                color: 'bg-stone-100 border-stone-300'
+            },
+            {
+                id: 'p2',
+                title: '2. 構成管理の健全化',
+                date: 'Refactoring Phase',
+                icon: '🔧',
+                summary: '履歴管理の不備を修正し、健全なブランチ戦略とフレームワーク更新を実施。',
+                details: [
+                    { label: 'Tagging', text: 'V1.0.0時点へ遡ってGit Tagを付与しベースライン確定' },
+                    { label: 'Branching', text: 'Mainから pj001-add-remarks-field を分離' },
+                    { label: 'Migration', text: 'TargetFramework: net9.0 → net10.0 へ更新' }
+                ],
+                status: 'Completed',
+                color: 'bg-amber-50 border-amber-200'
+            },
+            {
+                id: 'p3',
+                title: '3. 機能追加とCD (V1.0.1)',
+                date: 'Latest Release',
+                icon: '🚀',
+                summary: '備考欄機能の追加と、標準化された手順による安全な本番デプロイ。',
+                details: [
+                    { label: 'Integration', text: '実装完了後、MainブランチへMergeを実行' },
+                    { label: 'Version Control', text: 'Release-v1.1.0 (注釈付きタグ) をPush' },
+                    { label: 'Production Update', text: 'git pull origin main -> dotnet publish' },
+                    { label: 'Restart', text: 'systemctl restart によるプロセス再起動' }
+                ],
+                status: 'Active',
+                color: 'bg-green-50 border-green-200'
+            }
+        ];
+
+        // 2. Workflow Data (For Stepper)
+        const workflowSteps = [
+            {
+                step: 1,
+                title: "Sync Main",
+                desc: "開発を始める前に、必ずローカルの main ブランチを最新の状態に同期します。これにより、競合のリスクを最小限に抑えます。",
+                cmd: "git checkout main && git pull origin main"
+            },
+            {
+                step: 2,
+                title: "Create Branch",
+                desc: "修正内容に基づいた個別の feature ブランチを作成します。直接 main で作業してはいけません。",
+                cmd: "git checkout -b feature/pj00X-description"
+            },
+            {
+                step: 3,
+                title: "Local Dev & Commit",
+                desc: "クライアント環境で開発とテストを行います。コミットメッセージは詳細に記録します。",
+                cmd: "git add . && git commit -m 'Add new feature'"
+            },
+            {
+                step: 4,
+                title: "Merge & Tag",
+                desc: "承認後、main に統合し、セマンティックバージョニングに基づくタグを付与してPushします。",
+                cmd: "git checkout main && git merge feature/... && git tag -a v1.X.X"
+            },
+            {
+                step: 5,
+                title: "Production Pull",
+                desc: "サーバー環境で Pull を行い、アーティファクトを更新してサービスを再起動します。",
+                cmd: "git pull origin main && dotnet publish -c Release"
+            }
+        ];
+
+        // 3. Maturity Data (For Chart.js)
+        const maturityData = {
+            labels: ['Framework Modernity', 'Version Control', 'Deployment Safety', 'Process Definition', 'Stability'],
+            datasets: [
+                {
+                    label: 'Initial State (V1.0.0)',
+                    data: [3, 2, 3, 1, 3], // .NET9, No Tags, Manual, Ad-hoc, Stable
+                    backgroundColor: 'rgba(120, 113, 108, 0.2)', // stone-500
+                    borderColor: 'rgba(120, 113, 108, 1)',
+                    borderWidth: 1,
+                },
+                {
+                    label: 'Current State (V1.0.1)',
+                    data: [5, 5, 5, 5, 5], // .NET10, Tags+Branches, Standard Flow, Documented, Robust
+                    backgroundColor: 'rgba(217, 119, 6, 0.2)', // amber-600
+                    borderColor: 'rgba(217, 119, 6, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(217, 119, 6, 1)'
+                }
+            ]
+        };
+
+        // --- Application State & Logic ---
+
+        let currentPhaseIndex = 0;
+        let currentStepIndex = 0;
+
+        function init() {
+            renderPhaseTabs();
+            renderPhaseContent(0);
+            renderWorkflowList();
+            renderWorkflowDetail(0);
+            initMaturityChart();
+        }
+
+        // Logic: Phase Timeline
+        function renderPhaseTabs() {
+            const container = document.getElementById('phase-tabs');
+            container.innerHTML = phasesData.map((phase, index) => `
+                <button onclick="switchPhase(${index})" 
+                    class="p-4 rounded-lg border-2 text-left transition-all duration-200 flex items-center gap-3 ${index === currentPhaseIndex ? 'active-tab shadow-md' : 'inactive-tab'}">
+                    <span class="text-2xl">${phase.icon}</span>
+                    <div>
+                        <div class="text-xs font-bold uppercase opacity-70">${phase.date}</div>
+                        <div class="font-bold text-sm leading-tight">${phase.title}</div>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function switchPhase(index) {
+            currentPhaseIndex = index;
+            renderPhaseTabs();
+            
+            // Animation handling
+            const contentDiv = document.getElementById('phase-content');
+            contentDiv.style.opacity = '0';
+            contentDiv.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                renderPhaseContent(index);
+                contentDiv.style.opacity = '1';
+                contentDiv.style.transform = 'translateY(0)';
+            }, 200);
+        }
+
+        function renderPhaseContent(index) {
+            const phase = phasesData[index];
+            const container = document.getElementById('phase-content');
+            
+            // Build details list
+            const detailsHtml = phase.details.map(d => `
+                <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-stone-50 transition-colors border-b border-stone-100 last:border-0">
+                    <span class="bg-stone-200 text-stone-700 text-xs font-bold px-2 py-1 rounded whitespace-nowrap">${d.label}</span>
+                    <span class="text-stone-700 text-sm">${d.text}</span>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="flex justify-between items-start mb-4 border-b pb-4 border-stone-100">
+                    <div>
+                        <h3 class="text-2xl font-bold text-stone-800">${phase.title}</h3>
+                        <p class="text-stone-500 text-sm mt-1">${phase.summary}</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold ${phase.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-stone-200 text-stone-600'}">
+                        ${phase.status}
+                    </span>
+                </div>
+                <div class="space-y-1">
+                    ${detailsHtml}
+                </div>
+            `;
+        }
+
+        // Logic: Workflow Stepper
+        function renderWorkflowList() {
+            const container = document.getElementById('workflow-list');
+            container.innerHTML = workflowSteps.map((step, index) => `
+                <button onclick="switchWorkflow(${index})" 
+                    class="w-full text-left p-4 rounded-lg border-l-4 transition-all duration-200 flex items-center justify-between group ${index === currentStepIndex ? 'step-active shadow-sm' : 'step-inactive hover:bg-stone-50'}">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${index === currentStepIndex ? 'bg-amber-600 text-white' : 'bg-stone-200 text-stone-500'}">
+                            ${step.step}
+                        </div>
+                        <span class="font-bold text-stone-700">${step.title}</span>
+                    </div>
+                    <span class="text-stone-400 text-xl group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+            `).join('');
+        }
+
+        function switchWorkflow(index) {
+            currentStepIndex = index;
+            renderWorkflowList();
+            renderWorkflowDetail(index);
+        }
+
+        function renderWorkflowDetail(index) {
+            const step = workflowSteps[index];
+            document.getElementById('step-number-bg').innerText = step.step;
+            document.getElementById('wf-title').innerText = step.title;
+            document.getElementById('wf-desc').innerText = step.desc;
+            document.getElementById('wf-cmd').innerText = step.cmd;
+
+            // Highlight command box effect
+            const cmdBox = document.getElementById('wf-cmd-container');
+            cmdBox.classList.remove('bg-black/30');
+            void cmdBox.offsetWidth; // trigger reflow
+            cmdBox.classList.add('bg-black/30');
+        }
+
+        // Logic: Chart.js
+        function initMaturityChart() {
+            const ctx = document.getElementById('maturityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: maturityData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e7e5e4' },
+                            grid: { color: '#e7e5e4' },
+                            pointLabels: {
+                                font: { size: 12, family: "'Helvetica Neue', sans-serif" },
+                                color: '#57534e'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                color: 'transparent', // Hide numbers
+                                stepSize: 1,
+                                max: 5,
+                                min: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#57534e' }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(68, 64, 60, 0.9)',
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    }
+                }
+            });
+        }
+
+        // Start
+        window.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
